@@ -6,8 +6,8 @@ import (
 	"github.com/cloudwego/kitex/pkg/registry"
 	"github.com/cloudwego/kitex/pkg/rpcinfo"
 	"github.com/cloudwego/kitex/pkg/utils"
-	registry2 "github.com/kitex-contrib/registry-consul/registry"
 	"github.com/stretchr/testify/require"
+	registry2 "github.com/towelong/registry-consul/registry"
 	"testing"
 )
 

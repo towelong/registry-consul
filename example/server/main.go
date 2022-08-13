@@ -4,11 +4,12 @@ import (
 	"context"
 	"github.com/cloudwego/kitex-examples/hello/kitex_gen/api"
 	"github.com/cloudwego/kitex-examples/hello/kitex_gen/api/hello"
+	"github.com/cloudwego/kitex/pkg/klog"
 	"github.com/cloudwego/kitex/pkg/rpcinfo"
 	"github.com/cloudwego/kitex/server"
 	"github.com/towelong/registry-consul/registry"
-	"log"
 	"net"
+	"os"
 )
 
 type HelloImpl struct{}
@@ -31,15 +32,29 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+	addr, err := net.ResolveTCPAddr("tcp", "127.0.0.1:8080")
+	if err != nil {
+		panic(err)
+	}
 	svr := hello.NewServer(
 		new(HelloImpl),
 		server.WithRegistry(r),
 		server.WithServerBasicInfo(&rpcinfo.EndpointBasicInfo{ServiceName: "Hello"}),
-		server.WithServiceAddr(&net.TCPAddr{IP: net.IPv4(127, 0, 0, 1), Port: 8080}),
+		server.WithServiceAddr(addr),
 	)
+	f, err := os.OpenFile("./output.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		panic(err)
+	}
+	defer f.Close()
+	//klog.SetOutput(f)
+	klog.SetLevel(klog.LevelDebug)
+	klog.Debug("Debug中 ----")
+	klog.CtxInfof(context.Background(), "%s", "ctx 666")
+	klog.Error("服务器开小差了~")
 	if err := svr.Run(); err != nil {
-		log.Println("server stopped with error:", err)
+		klog.Error("server stopped with error:", err)
 	} else {
-		log.Println("server stopped")
+		klog.Info("server stopped")
 	}
 }

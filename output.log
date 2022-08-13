@@ -1,0 +1,8 @@
+2022/06/26 11:28:00.759278 server.go:77: [Info] KITEX: server listen at addr=127.0.0.1:8080
+2022/06/26 11:28:31.495414 main.go:54: [Info] server stopped
+2022/06/26 11:28:51.885042 server.go:77: [Info] KITEX: server listen at addr=127.0.0.1:8080
+2022/06/26 11:31:09.982625 main.go:54: [Info] server stopped
+2022/06/26 11:31:13.033537 main.go:52: [Info] ctx 666
+2022/06/26 11:31:13.033700 main.go:53: [Error] 服务器开小差了~
+2022/06/26 11:31:13.033844 server.go:77: [Info] KITEX: server listen at addr=127.0.0.1:8080
+2022/06/26 11:31:19.371887 main.go:57: [Info] server stopped

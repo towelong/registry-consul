@@ -5,8 +5,10 @@ import (
 	"github.com/cloudwego/kitex-examples/hello/kitex_gen/api"
 	"github.com/cloudwego/kitex-examples/hello/kitex_gen/api/hello"
 	"github.com/cloudwego/kitex/client"
+	"github.com/cloudwego/kitex/pkg/klog"
 	consul "github.com/towelong/registry-consul/resolver"
 	"log"
+	"os"
 	"time"
 )
 
@@ -26,12 +28,18 @@ func main() {
 		client.WithResolver(r),
 		client.WithRPCTimeout(time.Second*3),
 	)
+	f, err := os.OpenFile("./client_output.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		panic(err)
+	}
+	defer f.Close()
+	klog.SetOutput(f)
 	for {
 		resp, err := cli.Echo(context.Background(), &api.Request{Message: "Hello"})
 		if err != nil {
 			log.Fatal(err)
 		}
-		log.Println(resp)
+		klog.Info(resp)
 		time.Sleep(time.Second)
 	}
 }
